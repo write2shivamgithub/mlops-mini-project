@@ -6,6 +6,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 import yaml
 import logging
 import joblib
+import pickle
 
 # logging configuration
 logger = logging.getLogger('feature_engineering')
