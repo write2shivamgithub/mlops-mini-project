@@ -55,20 +55,19 @@ jobs:
         run: |
           python -m unittest tests/test_flask_app.py
 
-      - name: Login to Docker Hub
-        if: success()
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-
-      - name: Build Docker Image
-        if: success()
+      - name: Log in to Azure Container Registry (ACR)
         run: |
-          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/emotion1:latest .
+          az acr login --name emotionacr --username ${{ secrets.AZURE_USERNAME }} --password ${{ secrets.AZURE_PASSWORD }}
 
-      - name: Push Docker Image to Docker Hub
-        if: success()
+      - name: Build Docker image
         run: |
-         docker push ${{ secrets.DOCKER_HUB_USERNAME }}/emotion1:latest
+          docker build -t /emotion1 shivamshankaraacharya.
+
+      - name: Tag Docker image
+        run: |
+          docker tag shivamshankaraacharya/emotion1:latest emotionacr.azurecr.io/shivamshankaraacharya/emotion1:latest
+
+      - name: Push Docker image to Azure Container Registry (ACR)
+        run: |
+          docker push emotionacr.azurecr.io/shivamshankaraacharya/emotion1:latest
 
