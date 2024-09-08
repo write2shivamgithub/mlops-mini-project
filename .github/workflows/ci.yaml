@@ -61,7 +61,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t /emotion1 shivamshankaraacharya.
+          docker build -t shivamshankaraacharya/emotion1 .
 
       - name: Tag Docker image
         run: |
