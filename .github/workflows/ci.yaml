@@ -75,7 +75,9 @@ jobs:
         run: |
           az container create --resource-group NetworkWatcherRG \
             --name emotionaci \
-            --image emotionacr.azurecr.io/emotion1:latest \  # Removed the username; it's not needed here.
+            --image emotionacr.azurecr.io/shivamshankaraacharyaemotion1:latest \
+            --cpu 1 \
+            --memory 1 \
             --ports 80 \
             --environment-variables DAGSHUB_PAT=${{ secrets.DAGSHUB_PAT }}
 
