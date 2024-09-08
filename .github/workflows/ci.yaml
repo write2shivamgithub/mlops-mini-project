@@ -71,3 +71,17 @@ jobs:
         run: |
           docker push emotionacr.azurecr.io/shivamshankaraacharya/emotion1:latest
 
+      - name: Deploy to Azure Container Instance (ACI)
+        run: |
+          az container create --resource-group NetworkWatcherRG \
+            --name emotionaci \
+            --image emotionacr.azurecr.io/emotion1:latest \  # Removed the username; it's not needed here.
+            --ports 80 \
+            --environment-variables DAGSHUB_PAT=${{ secrets.DAGSHUB_PAT }}
+
+      - name: Verify Deployment
+        run: |
+          az container show --resource-group NetworkWatcherRG \
+            --name emotionaci \  # Changed to match the container name used in the deployment step.
+            --query "{IP:ipAddress.ip, ProvisioningState:provisioningState}" --out table  # Corrected the query format
+
