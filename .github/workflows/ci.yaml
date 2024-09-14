@@ -55,6 +55,10 @@ jobs:
         run: |
           python -m unittest tests/test_flask_app.py
 
+      - name: Login to Azure Interface
+        run: |
+         az login --user ${{ secrets.AZURE_USER }} --password ${{ secrets.AZURE_PD }}
+
       - name: Log in to Azure Container Registry (ACR)
         run: |
           az acr login --name emotionacr --username ${{ secrets.AZURE_USERNAME }} --password ${{ secrets.AZURE_PASSWORD }}
